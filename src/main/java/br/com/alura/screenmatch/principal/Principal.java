@@ -70,17 +70,17 @@ public class Principal {
 
         episodios.forEach(System.out::println);
 
-        System.out.println("Digite um trecho do titulo do episodio: ");
-        var trechoTitulo = leitura.nextLine();
-        Optional<Episodio> episodioBuscado = episodios.stream()
-                .filter(e -> e.getTitulo().toLowerCase().contains(trechoTitulo.toLowerCase()))
-                .findFirst();
-        if (episodioBuscado.isPresent()) {
-            System.out.println("Episodio encontrado!");
-            System.out.println("Temporada: " + episodioBuscado.get().getTemporada());
-        } else {
-            System.out.println("Episodio não encontrado!");
-        }
+//        System.out.println("Digite um trecho do titulo do episodio: ");
+//        var trechoTitulo = leitura.nextLine();
+//        Optional<Episodio> episodioBuscado = episodios.stream()
+//                .filter(e -> e.getTitulo().toLowerCase().contains(trechoTitulo.toLowerCase()))
+//                .findFirst();
+//        if (episodioBuscado.isPresent()) {
+//            System.out.println("Episodio encontrado!");
+//            System.out.println("Temporada: " + episodioBuscado.get().getTemporada());
+//        } else {
+//            System.out.println("Episodio não encontrado!");
+//        }
 
 //
 //        System.out.println("A partir de que ano deseja ver os episodios?");
@@ -97,5 +97,14 @@ public class Principal {
 //                                " Episódio: " + e.getTitulo() +
 //                                " Data lançamento: " + e.getDataLancamento().format(formatador)
 //                ));
+        Map<Integer, Double> avaliacaoPorTemporada = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.groupingBy(
+                            Episodio::getTemporada,
+                            Collectors.averagingDouble(Episodio::getAvaliacao)
+                ));
+        System.out.println(avaliacaoPorTemporada);
     }
+//    {1=8.2875, 2=6.3875, 3=0.0}
+//    {1=8.2875, 2=8.516666666666667}
 }
